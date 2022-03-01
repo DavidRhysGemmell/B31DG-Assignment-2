@@ -3,7 +3,7 @@ void setup() {
 
 }
 void Task9(){
-  Serial.print(ButtonState, Frequency, AverageAnaInput)
+  Serial.println(ButtonState, Frequency, AverageAnaInput);
 }
 void loop() {
   // put your main code here, to run repeatedly:
