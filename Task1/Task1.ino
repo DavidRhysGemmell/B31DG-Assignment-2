@@ -4,11 +4,13 @@ void setup() {
   // put your setup code here, to run once:
 pinMode(GreenLED, OUTPUT):
 }
-
-void loop() {
-  // put your main code here, to run repeatedly:
-  \\TASK 1\\
+void Task1() {
+    \\TASK 1\\
 digitalWrite(GreenLED,HIGH);
 delayMicroseconds(50);
 digitalWrite(GreenLED,LOW);
 }
+void loop() {
+  // put your main code here, to run repeatedly:
+
+
