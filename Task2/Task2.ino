@@ -9,7 +9,7 @@ void setup() {
 }
 
 void Task2 {
-   ButtonState=digitalRead(Button1); //Tells when Button is pressed
+   ButtonState=digitalRead(Button); //Tells when Button is pressed
 }
 void loop() {
   // put your main code here, to run repeatedly:
