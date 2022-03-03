@@ -36,7 +36,7 @@ if (SquarewaveState != LastSquarewaveState){ //When state changes, start timer
   Serial.printf( "Frequency is %d \n", frequency); 
   Serial.printf( "start is %d \n", SquarewaveStart);
   Serial.printf( "end is %d \n", SquarewaveEnd);
-  Counter = 2; //Terminates while loop.
+  Counter = 0; //Terminates while loop.
   }
   }
   
