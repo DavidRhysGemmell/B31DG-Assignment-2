@@ -1,15 +1,15 @@
-#define GreenLED 33//insert green pin number
+#define RedLED 33//insert green pin number
 void setup() {
   // put your setup code here, to run once:
-pinMode(GreenLED, OUTPUT);
+pinMode(RedLED, OUTPUT);
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
 if (error_code==1){
-    digitalWrite(GreenLED, HIGH);
+    digitalWrite(RedLED, HIGH);
    } else {
-    digitalWrite(GreenLED, LOW):
+    digitalWrite(RedLED, LOW):
    }
 
 }
