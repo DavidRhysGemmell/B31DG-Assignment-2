@@ -4,7 +4,7 @@ void setup() {
   // put your setup code here, to run once:
 pinMode(AnalogueInput, INPUT);
 }
-void Task3(){
+void Task4(){
   AnalogueRead=analogRead(AnalogueInput);
 }
 void loop() {
