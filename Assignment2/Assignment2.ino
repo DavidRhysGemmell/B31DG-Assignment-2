@@ -276,7 +276,7 @@ Counter=0;
 while (Counter!=2){ 
   SquarewaveState = digitalRead(squarewavein);
 if (SquarewaveState != LastSquarewaveState){ //When state changes, start timer
-  if (Counter=0){ //Checks if this is start of pulse
+  if (Counter==0){ //Checks if this is start of pulse
   SquarewaveStart = CurrentMicros;
   LastSquarewaveState = SquarewaveState;
   Counter = 1;  //Next time there is a change it will be end of pulse
