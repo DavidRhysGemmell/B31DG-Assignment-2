@@ -1,9 +1,3 @@
-//Loop setup//
-int slot = 0;
-unsigned long PreviousMicros=0;
-#define slotlength 4167
-#define totalslot 1199
-/////////////
 
 //Task1 setup//
 #define GreenLED //insert green LED pin
@@ -315,7 +309,7 @@ for (int i=0; i<=1000; i++){
 void Task7 {
   if (AverageAnaInput >= half_of_maximum_range_for_analogue_input){
     error_code = 1
-}else{
+} else {
     error_code = 0
 }
 }
