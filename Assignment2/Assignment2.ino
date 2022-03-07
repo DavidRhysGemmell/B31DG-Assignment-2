@@ -227,7 +227,8 @@ if (SquarewaveState != LastSquarewaveState){
     }
     if (SquarewaveState != LastSquarewaveState){
       SquarewaveEnd = micros(); //
-      frequency = 1000000/(2*(SquarewaveEnd-SquarewaveStart));    
+      frequency = 1000000/(2*(SquarewaveEnd-SquarewaveStart));
+      
     }   
 }
 }
@@ -271,4 +272,3 @@ Serial.printf( "Button State is %d \n", ButtonState);
 Serial.printf( "Frequency is %d \n", frequency);
 Serial.printf( "Average Analogue input is %d \n", AverageAnaInput);
 }
-  
