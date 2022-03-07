@@ -227,9 +227,7 @@ if (SquarewaveState != LastSquarewaveState){
     }
     if (SquarewaveState != LastSquarewaveState){
       SquarewaveEnd = micros(); //
-      frequency = 1000000/(2*(SquarewaveEnd-SquarewaveStart));
-      Serial.printf( "Frequency is %d \n", frequency);
-      
+      frequency = 1000000/(2*(SquarewaveEnd-SquarewaveStart));    
     }   
 }
 }
