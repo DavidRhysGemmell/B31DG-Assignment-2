@@ -212,6 +212,7 @@ void Task2() {
 }
 
 void Task3(){  
+Counter=0;
 SquarewaveState=digitalRead(squarewavein);
 LastSquarewaveState=SquarewaveState;
 while (SquarewaveState==LastSquarewaveState){
@@ -219,16 +220,17 @@ while (SquarewaveState==LastSquarewaveState){
 }
 
 if (SquarewaveState != LastSquarewaveState){
-  if (Counter == 0){
-  SquarewaveStart=micros();
-  LastSquarewaveState=SquarewaveState;
-  Counter++;
-} else {
-  SquarewaveEnd = micros(); //
-  frequency = 1000000/(2*(SquarewaveEnd-SquarewaveStart));
-  Counter = 0;
-  LastSquarewaveState=SquarewaveState;
-}
+    SquarewaveStart=micros();
+    LastSquarewaveState=SquarewaveState;
+    while (SquarewaveState==LastSquarewaveState){
+    SquarewaveState = digitalRead(squarewavein); 
+    }
+    if (SquarewaveState != LastSquarewaveState){
+      SquarewaveEnd = micros(); //
+      frequency = 1000000/(2*(SquarewaveEnd-SquarewaveStart));
+      Serial.printf( "Frequency is %d \n", frequency);
+      
+    }   
 }
 }
 
