@@ -2,8 +2,12 @@
 unsigned long StartMicros = 0;
 unsigned long EndMicros = 0;
 unsigned long PreviousMicros = 0;
-#define slotlength 41667
+#define slotlength 1386 //underestimate
 int slot = 0;
+
+int OneCycle = 0;
+unsigned long StartofCycleMicros = 0;
+unsigned long EndofCycleMicros = 0;
 /////////////
 
 //Task1 setup//
@@ -60,6 +64,7 @@ void setup() {
   // put your setup code here, to run once:
 
 Serial.begin(115200);
+StartofCycleMicros= micros();
 
 //Task1//
 pinMode(GreenLED, OUTPUT);
@@ -105,200 +110,89 @@ pinMode(GreenLED, OUTPUT);
 
 void loop() {
   // put your main code here, to run repeatedly:
-unsigned long StartMicros=micros(); //Starts a timer which starts at 0 when the ESP 32 is turned on. We compare other timings to this to detect when certain time has elapsed.
 
-if ((slot/30) % 8 == 0){ // Task 1 to be completed
-  if ((slot/24) % 10 == 4){ //Checks if clash in timings with Task5. Ie slot 24. If so, does Task1, waits till end of slot, then Task4, waits again till slot has finished, adds 2 to keep slot count accurate.
-    if ((slot+1) % 5 == 1){ //slot 144
-    StartMicros=micros();
-    Task1();
-    EndMicros=micros();
-    delayMicroseconds(slotlength-(EndMicros-StartMicros));
-    StartMicros=micros();
-    Task2();
-    EndMicros=micros();
-    delayMicroseconds(slotlength-(EndMicros-StartMicros));
-    StartMicros=micros();
-    Task5();
-    EndMicros=micros();
-    delayMicroseconds(slotlength-(EndMicros-StartMicros));
-    slot=slot+3;
-    Serial.printf( "Task 1,2,5 %d \n", slot);
-  } else { //Task1 and Task5 clash
-    StartMicros=micros();
-    Task1();
-    EndMicros=micros();
-    delayMicroseconds(slotlength-(EndMicros-StartMicros));
-    StartMicros=micros();
-    Task5();
-    EndMicros=micros();
-    delayMicroseconds(slotlength-(EndMicros-StartMicros));
-    slot=slot+2;
-    Serial.printf( "Task 1,5 %d \n", slot);
-  }
-  } else { //no clashes
+if (slot % 24 == 0){ // Task 1 to be completed
+ //no clashes
   StartMicros=micros();
   Task1();
   EndMicros=micros();
   delayMicroseconds(slotlength-(EndMicros-StartMicros));
   slot=slot+1;  
-  }
+
   
-} else if ((slot/5) % 48 == 1){ // Task 2 to be completed
-  if ((slot/24) % 10 == 3){ //Checks for clashes with Task4
-    StartMicros=micros();
-    Task2();
-    EndMicros=micros();
-    delayMicroseconds(slotlength-(EndMicros-StartMicros));
-    StartMicros=micros();
-    Task4();
-    EndMicros=micros();
-    delayMicroseconds(slotlength-(EndMicros-StartMicros));
-    StartMicros=micros();
-    Task5();
-    EndMicros=micros();
-    delayMicroseconds(slotlength-(EndMicros-StartMicros));
-    slot = slot+3;
-    Serial.printf( "Task 2,4,5 %d \n", slot);
-  } else {
+} else if (slot % 144 == 1){ // Task 2 to be completed
+
   StartMicros=micros();
   Task2();
   EndMicros=micros();
   delayMicroseconds(slotlength-(EndMicros-StartMicros));
   slot=slot+1;
-  }
+
   
-} else if (slot % 240 == 2){ // Task 3 to be completed //no clashes
+} else if (slot % 720 == 2){ // Task 3 to be completed //no clashes
   StartMicros=micros();
   Task3();
   EndMicros=micros();
-  delayMicroseconds(slotlength-(EndMicros-StartMicros));
-  slot=slot+1;
-  Serial.printf( "Task 3, slot %d \n", slot);
+  delayMicroseconds((2*slotlength)-(EndMicros-StartMicros)); // takes 2 slots
+  slot=slot+2;
   
-} else if ((slot/24) % 10 == 3){ // Task 4 to be completed 
-  if ((slot/10) % 24 == 5){ // Checks for clash with 5
-    StartMicros=micros();
-    Task4();
-    EndMicros=micros();
-    delayMicroseconds(slotlength-(EndMicros-StartMicros));
-    StartMicros=micros();
-    Task5();
-    EndMicros=micros();
-    delayMicroseconds(slotlength-(EndMicros-StartMicros));
-    StartMicros=micros();
-    Task6();
-    EndMicros=micros();
-    delayMicroseconds(slotlength-(EndMicros-StartMicros));
-    slot = slot+3;
-    Serial.printf( "Task 4,5,6 %d \n", slot);
-  } else if ((slot/5) % 48 == 1){ // Checks for clash with 2
-    StartMicros=micros();
-    Task2();
-    EndMicros=micros();
-    delayMicroseconds(slotlength-(EndMicros-StartMicros));
-    StartMicros=micros();
-    Task4();
-    EndMicros=micros();
-    delayMicroseconds(slotlength-(EndMicros-StartMicros));
-    StartMicros=micros();
-    Task5();
-    EndMicros=micros();
-    delayMicroseconds(slotlength-(EndMicros-StartMicros));
-    slot = slot+3;
-    Serial.printf( "Task 2,4,5 %d \n", slot);
-  } else { // no clashes
+  
+} else if (slot % 30 == 4){ // Task 4 to be completed 
+ // no clashes
   StartMicros=micros();
   Task4();
   EndMicros=micros();
   delayMicroseconds(slotlength-(EndMicros-StartMicros));
   slot=slot+1;
-  }
-  
-} else if ((slot/24) % 10 == 4){ // Task 5 to be completed
-     if ((slot/30) % 8 == 0){ // Checks for clash with Task1
-      if ((slot+1) % 5 == 1){ //slot 144
-    StartMicros=micros();
-    Task1();
-    EndMicros=micros();
-    delayMicroseconds(slotlength-(EndMicros-StartMicros));
-    StartMicros=micros();
-    Task2();
-    EndMicros=micros();
-    delayMicroseconds(slotlength-(EndMicros-StartMicros));
-    StartMicros=micros();
-    Task5();
-    EndMicros=micros();
-    delayMicroseconds(slotlength-(EndMicros-StartMicros));
-    slot=slot+3;
-    Serial.printf( "Task 1,2,5 %d \n", slot);
-      } else { // just clash with Task1
-            StartMicros=micros();
-    Task1();
-    EndMicros=micros();
-    delayMicroseconds(slotlength-(EndMicros-StartMicros));
-    StartMicros=micros();
-    Task5();
-    EndMicros=micros();
-    delayMicroseconds(slotlength-(EndMicros-StartMicros));
-    slot=slot+2;
-    Serial.printf( "Task 1,5 %d \n", slot);
-      }
-     } else { //No clash
+
+ 
+} else if (slot % 30 == 5){ // Task 5 to be completed
+ //No clash
   StartMicros=micros();
   Task5();
   EndMicros=micros();
   delayMicroseconds(slotlength-(EndMicros-StartMicros));
   slot=slot+1;
-     }
+     
   
-} else if ((slot/10) % 24 == 5){ // Task 6 to be completed
-  if ((slot/24) % 10 == 3){
-    StartMicros=micros();
-    Task4();
-    EndMicros=micros();
-    delayMicroseconds(slotlength-(EndMicros-StartMicros));
-    StartMicros=micros();
-    Task5();
-    EndMicros=micros();
-    delayMicroseconds(slotlength-(EndMicros-StartMicros));
-    StartMicros=micros();
-    Task6();
-    EndMicros=micros();
-    delayMicroseconds(slotlength-(EndMicros-StartMicros));
-    slot=slot+3;
-  } else { //No clash
+} else if (slot % 72 == 6){ // Task 6 to be completed
+
   StartMicros=micros();
   Task6();
   EndMicros=micros();
   delayMicroseconds(slotlength-(EndMicros-StartMicros));
   slot=slot+1;
-  Serial.printf( "Task 6 %d \n", slot);
-  }
   
-} else if ((slot/3) % 80 == 6){ // Task 7 to be completed
+  
+  
+} else if (slot % 240 == 7){ // Task 7 to be completed
   StartMicros=micros();
   Task7();
   EndMicros=micros();
   delayMicroseconds(slotlength-(EndMicros-StartMicros));
   slot=slot+1;
-  Serial.printf( "Task 7 %d \n", slot);
   
-} else if ((slot/3) % 80 == 7){ // Task 8 to be completed
+  
+} else if (slot % 240 == 8){ // Task 8 to be completed
   StartMicros=micros();
   Task8();
   EndMicros=micros();
   delayMicroseconds(slotlength-(EndMicros-StartMicros));
   slot=slot+1;
-  Serial.printf( "Task 8 %d \n", slot);
   
-} else if (slot % 1200 == 1199){ // Task 9 to be completed
+  
+} else if (slot % 3600 == 3599){ // Task 9 to be completed
   StartMicros=micros();
   Task9();
   EndMicros=micros();
   delayMicroseconds(slotlength-(EndMicros-StartMicros));
+  EndofCycleMicros=micros(); //Refine this to make exactly 5 seconds.
+  OneCycle=(EndofCycleMicros-StartofCycleMicros);
+  Serial.printf( "1 cycle is %d \n", OneCycle);
+  delayMicroseconds(5000000-OneCycle); //Takes each cycle to exactly 5 seconds
+  StartofCycleMicros=micros();
   slot=0;
-  Serial.printf( "Task 9 %d \n", slot);
+
 } else {
   delayMicroseconds(slotlength);   
   slot=slot+1;
@@ -332,9 +226,6 @@ if (SquarewaveState != LastSquarewaveState){
 } else {
   SquarewaveEnd = micros(); //
   frequency = 1000000/(2*(SquarewaveEnd-SquarewaveStart));
-  Serial.printf( "Frequency is %d \n", frequency); 
-  Serial.printf( "start is %d \n", SquarewaveStart);
-  Serial.printf( "end is %d \n", SquarewaveEnd);
   Counter = 0;
   LastSquarewaveState=SquarewaveState;
 }
@@ -349,7 +240,7 @@ void Task5(){
   Prev4AnaInput = Prev3AnaInput;
   Prev3AnaInput = Prev2AnaInput;
   Prev2AnaInput = Prev1AnaInput;
-  Prev1AnaInput = AnalogueInput;
+  Prev1AnaInput = AnalogueRead;
   AverageAnaInput = (Prev4AnaInput+Prev3AnaInput+Prev2AnaInput+Prev1AnaInput)/4;
 }
 
@@ -380,3 +271,4 @@ Serial.printf( "Button State is %d \n", ButtonState);
 Serial.printf( "Frequency is %d \n", frequency);
 Serial.printf( "Average Analogue input is %d \n", AverageAnaInput);
 }
+  
