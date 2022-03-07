@@ -9,7 +9,7 @@ void loop() {
 if (error_code==1){
     digitalWrite(RedLED, HIGH);
    } else {
-    digitalWrite(RedLED, LOW):
+    digitalWrite(RedLED, LOW);
    }
 
 }
