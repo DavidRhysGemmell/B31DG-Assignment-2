@@ -7,9 +7,9 @@ void setup() {
 
 void Task7 {
   if (AverageAnaInput > half_of_maximum_range_for_analogue_input){
-    error_code = 1
+    error_code = 1;
 }else{
-    error_code = 0
+    error_code = 0;
 }
 }
 void loop() {
