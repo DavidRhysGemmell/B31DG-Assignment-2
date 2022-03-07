@@ -11,16 +11,16 @@ unsigned long EndofCycleMicros = 0;
 /////////////
 
 //Task1 setup//
-#define GreenLED 33//insert green LED pin
+#define GreenLED 27//insert green LED pin
 //////////////
 
 //Task2//
-#define Button 22 //insert Button 1 pin
+#define Button 13 //insert Button 1 pin
 int ButtonState=0;
 /////////
 
 //Task3//
-#define squarewavein 26 //Square wave input pin number.
+#define squarewavein 19 //Square wave input pin number.
 unsigned long SquarewaveStart=0;
 unsigned long SquarewaveEnd=0;
 unsigned long frequency = 0;
@@ -30,7 +30,7 @@ int Counter = 0;
 /////////
 
 //Task4//
-#define AnalogueInput 27 //pin number
+#define AnalogueInput 32 //pin number
 int AnalogueRead=0;
 ////////
 
@@ -46,12 +46,12 @@ int AverageAnaInput = 0;
 /////////
 
 //Task7//
- int half_of_maximum_range_for_analogue_input = 0;
+ int half_of_maximum_range_for_analogue_input = 2048;
  int error_code=0;
 /////////
 
 //Task8//
-#define RedLED 32//insert green pin number
+#define RedLED 26//insert green pin number
 ////////
 
 //Task9//
@@ -131,7 +131,7 @@ if (slot % 24 == 0){ // Task 1 to be completed
   
 } else if (slot % 720 == 2){ // Task 3 to be completed //no clashes
   StartMicros=micros();
-  Task3();
+  //Task3(); ///////////////////////REMOVE BEFORE SUBMISSION///////////////////////////////////////
   EndMicros=micros();
   delayMicroseconds((2*slotlength)-(EndMicros-StartMicros)); // takes 2 slots
   slot=slot+2;
