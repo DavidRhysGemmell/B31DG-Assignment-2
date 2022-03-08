@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root xmlns:nsd="https://structorizer.fisch.lu" version="3.32-06" preRepeat="until " postFor="to" preReturn="return" postForIn="in" preWhile="while " output="OUTPUT" input="INPUT" preFor="for" preExit="exit" preLeave="leave" ignoreCase="true" preThrow="throw" preForIn="foreach" stepFor="by" namespace="" author="David" created="2022-03-08" changedby="David" changed="2022-03-08" origin="Structorizer 3.32-06" text="&#34;Assignment 2&#34;" comment="" color="ffffff" type="program" style="nice">
+	<children>
+		<case text="&#34;Remainder of Slot &#34;,&#34;If Slot % 24 == 0&#34;,&#34;If Slot % 144 == 1&#34;,&#34;If Slot % 720 == 2&#34;,&#34;If Slot % 30 == 4&#34;,&#34;If Slot % 30 == 5&#34;,&#34;If Slot % 72 == 6&#34;,&#34;If Slot % 240 == 7&#34;,&#34;If Slot % 240 == 8&#34;,&#34;If Slot % 3600 == 3599&#34;,&#34;default&#34;" comment="" color="ffffff" disabled="0">
+			<qCase>
+				<instruction text="&#34;StartofTaskMicros=micros();&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+				<instruction text="&#34;Task 1 {&#34;,&#34;LED on&#34;,&#34;delayMicroseconds(50);&#34;,&#34;LED off&#34;,&#34;}&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+				<instruction text="&#34;EndofTaskMicros=micros();&#34;,&#34;delayMicroseconds(SlotLength-(EndofTaskMicros-StartofTaskMicros));&#34;,&#34;Slot++;&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+			</qCase>
+			<qCase>
+				<instruction text="&#34;StartofTaskMicros=micros();&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+				<instruction text="&#34;Task 2 {&#34;,&#34;digitalRead(Button);&#34;,&#34;}&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+				<instruction text="&#34;EndofTaskMicros=micros();&#34;,&#34;delayMicroseconds(SlotLength-(EndofTaskMicros-StartofTaskMicros));&#34;,&#34;Slot++;&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+			</qCase>
+			<qCase>
+				<instruction text="&#34;StartofTaskMicros=micros();&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+				<instruction text="&#34;Task 3 &#34;,&#34;  SquarewaveState=digitalRead(squarewavein);&#34;,&#34;  LastSquarewaveState=SquarewaveState;&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+				<while text="&#34;while (SquarewaveState==LastSquarewaveState)&#34;" comment="&#34;&#34;" color="ffffff" disabled="0">
+					<qWhile>
+						<instruction text="&#34;SquarewaveState = digitalRead(squarewavein);&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+					</qWhile>
+				</while>
+				<alternative text="&#34;if (SquarewaveState != LastSquarewaveState)&#34;" comment="&#34;&#34;" color="ffffff" disabled="0">
+					<qTrue>
+						<instruction text="&#34;    SquarewaveStart=micros();&#34;,&#34;    LastSquarewaveState=SquarewaveState;&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+						<while text="&#34;while (SquarewaveState==LastSquarewaveState)&#34;" comment="&#34;&#34;" color="ffffff" disabled="0">
+							<qWhile>
+								<instruction text="&#34;SquarewaveState = digitalRead(squarewavein);&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+							</qWhile>
+						</while>
+						<alternative text="&#34;if (SquarewaveState != LastSquarewaveState)&#34;" comment="&#34;&#34;" color="ffffff" disabled="0">
+							<qTrue>
+								<instruction text="&#34;      SquarewaveEnd = micros(); //&#34;,&#34;      Frequency = 1000000/(2*(SquarewaveEnd-SquarewaveStart));    &#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+							</qTrue>
+							<qFalse color="ffffff">
+							</qFalse>
+						</alternative>
+					</qTrue>
+					<qFalse color="ffffff">
+					</qFalse>
+				</alternative>
+				<instruction text="&#34;EndofTaskMicros=micros();&#34;,&#34;delayMicroseconds((2*SlotLength)-(EndofTaskMicros-StartofTaskMicros));&#34;,&#34;Slot=Slot+2;&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+			</qCase>
+			<qCase>
+				<instruction text="&#34;StartofTaskMicros=micros();&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+				<instruction text="&#34;Task 4:&#34;,&#34; AnalogueRead=analogRead(AnalogueInput);&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+				<instruction text="&#34;EndofTaskMicros=micros();&#34;,&#34;delayMicroseconds(SlotLength-(EndofTaskMicros-StartofTaskMicros));&#34;,&#34;Slot++;&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+			</qCase>
+			<qCase>
+				<instruction text="&#34;StartofTaskMicros=micros();&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+				<instruction text="&#34;Task 5:&#34;,&#34;  Prev4AnaInput = Prev3AnaInput;&#34;,&#34;  Prev3AnaInput = Prev2AnaInput;&#34;,&#34;  Prev2AnaInput = Prev1AnaInput;&#34;,&#34;  Prev1AnaInput = AnalogueRead;&#34;,&#34;  AverageAnaInput = (Prev4AnaInput+Prev3AnaInput+Prev2AnaInput+Prev1AnaInput)/4;&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+				<instruction text="&#34;EndofTaskMicros=micros();&#34;,&#34;delayMicroseconds(SlotLength-(EndofTaskMicros-StartofTaskMicros));&#34;,&#34;Slot++;&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+			</qCase>
+			<qCase>
+				<instruction text="&#34;StartofTaskMicros=micros();&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+				<instruction text="&#34;Task 6:&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+				<for text="&#34;for i &#60;- 0 to 1000&#34;" comment="&#34;&#34;" counterVar="i" startValue="0" endValue="1000" stepConst="1" style="COUNTER" color="ffffff" disabled="0">
+					<qFor>
+						<instruction text="&#34;__asm__ __volatile__ (&#34;&#34;nop&#34;&#34;);&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+					</qFor>
+				</for>
+				<instruction text="&#34;EndofTaskMicros=micros();&#34;,&#34;delayMicroseconds(SlotLength-(EndofTaskMicros-StartofTaskMicros));&#34;,&#34;Slot++;&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+			</qCase>
+			<qCase>
+				<instruction text="&#34;StartofTaskMicros=micros();&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+				<alternative text="&#34;Task 7:&#34;,&#34;if Average Analogue Input &#62; Half of maximum range of Analogue Input&#34;" comment="&#34;&#34;" color="ffffff" disabled="0">
+					<qTrue>
+						<instruction text="&#34;error_code = 1;&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+					</qTrue>
+					<qFalse>
+						<instruction text="&#34;error_code = 0;&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+					</qFalse>
+				</alternative>
+				<instruction text="&#34;    EndofTaskMicros=micros();&#34;,&#34;    delayMicroseconds(SlotLength-(EndofTaskMicros-StartofTaskMicros));&#34;,&#34;    Slot++;&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+			</qCase>
+			<qCase>
+				<alternative text="&#34;Task 8:&#34;,&#34;If error_code==1;&#34;" comment="&#34;&#34;" color="ffffff" disabled="0">
+					<qTrue>
+						<instruction text="&#34;digitalWrite(RedLED, HIGH);&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+					</qTrue>
+					<qFalse>
+						<instruction text="&#34;digitalWrite(RedLED, LOW);&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+					</qFalse>
+				</alternative>
+				<instruction text="&#34;    EndofTaskMicros=micros();&#34;,&#34;    delayMicroseconds(SlotLength-(EndofTaskMicros-StartofTaskMicros));&#34;,&#34;    Slot++;&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+			</qCase>
+			<qCase>
+				<instruction text="&#34;StartofTaskMicros=micros();&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+				<instruction text="&#34;Task 9:&#34;,&#34;  Serial.printf( &#34;&#34;Button State is %d, &#34;&#34;, ButtonState);&#34;,&#34;  Serial.printf( &#34;&#34;Frequency is %d, &#34;&#34;, Frequency);&#34;,&#34;  Serial.printf( &#34;&#34;Average Analogue input is %d. \n&#34;&#34;, AverageAnaInput);&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+				<instruction text="&#34;    EndofTaskMicros=micros();&#34;,&#34;    delayMicroseconds(SlotLength-(EndofTaskMicros-StartofTaskMicros));&#34;,&#34;    EndofCycleMicros=micros(); &#34;,&#34;    OneCycle=(EndofCycleMicros-StartofCycleMicros);&#34;,&#34;    delayMicroseconds(5000000-OneCycle); &#34;,&#34;    StartofCycleMicros=micros();&#34;,&#34;    Slot=0;&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+			</qCase>
+			<qCase>
+				<instruction text="&#34;    delayMicroseconds(SlotLength);   &#34;,&#34;    Slot++;&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+			</qCase>
+		</case>
+	</children>
+</root>
