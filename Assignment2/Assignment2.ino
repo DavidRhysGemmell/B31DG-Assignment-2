@@ -41,6 +41,7 @@ int LastSquarewaveState = 0;
 //Task4//
 #define AnalogueInput 32 //pin number
 int AnalogueRead=0;
+#define Task4OutputPin 18
 ////////
 
 //Task5//
@@ -89,6 +90,7 @@ void setup() {
 
   //Task4 Setup//
    pinMode(AnalogueInput, INPUT);
+   pinMode(Task4OutputPin, OUTPUT);
   //////////////
 
   //Task5 Setup//
@@ -129,14 +131,16 @@ void loop() {
 
   } else if (Slot % 720 == 2){ // Task 3 to be completed
     StartofTaskMicros=micros();
-    //Task3(); ///////////////////////REMOVE BEFORE SUBMISSION///////////////////////////////////////
+    Task3(); ///////////////////////REMOVE BEFORE SUBMISSION///////////////////////////////////////
     EndofTaskMicros=micros();
     delayMicroseconds((2*SlotLength)-(EndofTaskMicros-StartofTaskMicros)); // takes 2 Slots to be able to measure a 500hz signal.
     Slot=Slot+2;
     
   } else if (Slot % 30 == 4){ // Task 4 to be completed 
     StartofTaskMicros=micros();
+    digitalWrite(Task4OutputPin, HIGH);
     Task4();
+    digitalWrite(Task4OutputPin, LOW);
     EndofTaskMicros=micros();
     delayMicroseconds(SlotLength-(EndofTaskMicros-StartofTaskMicros));
     Slot++;
@@ -218,10 +222,10 @@ void Task3(){
     while (SquarewaveState==LastSquarewaveState){
       SquarewaveState = digitalRead(squarewavein); 
     }
-    if (SquarewaveState != LastSquarewaveState){ //MAY NOT NEED, TEST TOMORROW.
+
       SquarewaveEnd = micros(); //
       Frequency = 1000000/(2*(SquarewaveEnd-SquarewaveStart));      
-    }   
+      
   }
 }
 ////////////////////////
