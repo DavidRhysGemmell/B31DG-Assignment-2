@@ -22,7 +22,7 @@ unsigned long EndofCycleMicros = 0;
 
 //Task1 setup//
 #define GreenLED 27//insert green LED pin
-//////////////
+//////////////I
 
 //Task2//
 #define Button 13 //insert Button pin
@@ -176,7 +176,7 @@ void loop() {
     Task9();
     EndofTaskMicros=micros();
     delayMicroseconds(SlotLength-(EndofTaskMicros-StartofTaskMicros));
-    EndofCycleMicros=micros(); //Refine this to make exactly 5 seconds.
+    EndofCycleMicros=micros();
     OneCycle=(EndofCycleMicros-StartofCycleMicros);
     delayMicroseconds(5000000-OneCycle); //Takes each cycle to exactly 5 seconds
     StartofCycleMicros=micros();
