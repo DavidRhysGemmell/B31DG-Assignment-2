@@ -116,10 +116,10 @@ void setup() {
 void loop() {
 
   if (Slot % 24 == 0){ // Task 1 to be completed
-    StartofTaskMicros=micros();
+    StartofTaskMicros=micros(); // Save time at start of task.
     Task1();
-    EndofTaskMicros=micros();
-    delayMicroseconds(SlotLength-(EndofTaskMicros-StartofTaskMicros));
+    EndofTaskMicros=micros(); // Save time at end of task. Used to compute length of task.
+    delayMicroseconds(SlotLength-(EndofTaskMicros-StartofTaskMicros)); //Delays upto the slot length.
     Slot++;  
   
   } else if (Slot % 144 == 1){ // Task 2 to be completed
@@ -131,7 +131,7 @@ void loop() {
 
   } else if (Slot % 720 == 2){ // Task 3 to be completed
     StartofTaskMicros=micros();
-    Task3(); ///////////////////////REMOVE BEFORE SUBMISSION///////////////////////////////////////
+    Task3();
     EndofTaskMicros=micros();
     delayMicroseconds((2*SlotLength)-(EndofTaskMicros-StartofTaskMicros)); // takes 2 Slots to be able to measure a 500hz signal.
     Slot=Slot+2;
@@ -211,21 +211,19 @@ void Task2() {
 
 //// TASK3 FUNCTION ////
 void Task3(){  
-  SquarewaveState=digitalRead(squarewavein);
+  SquarewaveState=digitalRead(squarewavein); // Saving the initial state of the square wave.
   LastSquarewaveState=SquarewaveState;
   while (SquarewaveState==LastSquarewaveState){
-    SquarewaveState = digitalRead(squarewavein); 
+    SquarewaveState = digitalRead(squarewavein); // We read until the state changes
   }
   if (SquarewaveState != LastSquarewaveState){
-    SquarewaveStart=micros();
-    LastSquarewaveState=SquarewaveState;
-    while (SquarewaveState==LastSquarewaveState){
-      SquarewaveState = digitalRead(squarewavein); 
+    SquarewaveStart=micros(); // Save this start time.
+    LastSquarewaveState=SquarewaveState; // Save start state.
+    while (SquarewaveState==LastSquarewaveState){ //Read again until state changes again
+      SquarewaveState = digitalRead(squarewavein);  
     }
-
-      SquarewaveEnd = micros(); //
-      Frequency = 1000000/(2*(SquarewaveEnd-SquarewaveStart));      
-      
+      SquarewaveEnd = micros(); // Save the end time.
+      Frequency = 1000000/(2*(SquarewaveEnd-SquarewaveStart)); // Calculate frequency     
   }
 }
 ////////////////////////
@@ -238,17 +236,17 @@ void Task4(){
 
 //// TASK5 FUNCTION ////
 void Task5(){
-  Prev4AnaInput = Prev3AnaInput;
-  Prev3AnaInput = Prev2AnaInput;
-  Prev2AnaInput = Prev1AnaInput;
-  Prev1AnaInput = AnalogueRead;
-  AverageAnaInput = (Prev4AnaInput+Prev3AnaInput+Prev2AnaInput+Prev1AnaInput)/4;
+  Prev4AnaInput = Prev3AnaInput; //4th last input
+  Prev3AnaInput = Prev2AnaInput; //3rd last input
+  Prev2AnaInput = Prev1AnaInput; //2nd last input
+  Prev1AnaInput = AnalogueRead; //Last input
+  AverageAnaInput = (Prev4AnaInput+Prev3AnaInput+Prev2AnaInput+Prev1AnaInput)/4; // Mean average.
 }
 ////////////////////////
 
 //// TASK6 FUNCTION ////
 void Task6() {
-  for (int i=0; i<=1000; i++){
+  for (int i=1; i<=1000; i++){
     __asm__ __volatile__ ("nop");
   }
 }
